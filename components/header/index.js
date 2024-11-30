@@ -6,12 +6,14 @@ import Image from "next/image";
 import Logo from "/assets/logo.svg";
 import { useRouter } from "next/router";
 import { getData } from "@/feature/firebase/firebaseAuth"; // Import API call
+import Loader from "@/components/loader";
 
 export default function Header() {
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [categories, setCategories] = useState([]); // State để lưu thể loại
   const pathname = router.pathname.split("/");
+  const [loading, setLoading] = useState(false);
 
   // Fetch thể loại từ API
   useEffect(() => {
@@ -24,12 +26,17 @@ export default function Header() {
       }
     }
     fetchCategories();
+    setLoading(true);
   }, []);
+  if (!loading) {
+    return <Loader />;
+  }
+
 
   return (
     <div className="relative bg-white z-[99] sticky top-0 w-[100vw] border-b-[1px] border-[#ccc]">
       <div className="container m-auto flex flex-row justify-between items-center p-4">
-        <Image className="md:hidden" src={Logo} width={70} height={30} alt="" />
+        {/* <Image className="md:hidden" src={Logo} width={70} height={30} alt="" /> */}
         <ul className="flex-row items-center hidden md:flex">
           <li>
             <Link href="/" className="block logo-url"></Link>
@@ -69,6 +76,7 @@ export default function Header() {
                 </li>
               ))}
             </ul>
+            
           </li>
 
           <li className="px-4">

@@ -5,6 +5,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineLoading } from "react-icons/ai";
 import AuthContext from "@/feature/auth-context";
 import axios from "axios";
+import Link from "next/link";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
 
 export default function CardCart({
@@ -102,15 +103,18 @@ export default function CardCart({
 
   return (
     <div
-      className={`${
-        display ? "flex" : "hidden"
-      } relative p-3 box-shadow my-4 relative rounded ${
-        loading ? "opacity-50" : ""
-      }`}
+      className={`${display ? "flex" : "hidden"
+        } relative p-3 box-shadow my-4 relative rounded ${loading ? "opacity-50" : ""
+        }`}
     >
-      <Image src={img} alt="" width={200} height={200} />
+      <Image src={img} alt="" width={200} height={200} className="w-40 h-37 object-cover" />
       <div className="p-4 flex flex-col justify-between">
-        <h2 className="font-bold uppercase">{name}</h2>
+        <h2 className="font-bold uppercase">
+          <Link href={`/kham-pha/order/${id}`} className="text-black hover:text-cyan-500">
+            {name}
+          </Link>
+        </h2>
+
         <div>
           {/* <span
             onClick={() => setShow(!show)}
@@ -120,16 +124,15 @@ export default function CardCart({
             <IoIosArrowDown className={`w-5 h-5 ${!show && "rotate-180"}`} />
           </span> */}
           <p
-            className={`${
-              show ? "hidden" : "block"
-            } w-[45%] text-[#999] text-[15px] block`}
+            className={`${show ? "hidden" : "block"
+              } w-[45%] text-[#999] text-[15px] block`}
           >
             {description}
           </p>
         </div>
         <span
           onClick={handleDelete}
-          className="cursor-pointer hover:underline roboto text-red-600"
+          className="cursor-pointer hover:text-cyan-500 roboto text-red-600"
         >
           Xóa
         </span>
@@ -143,9 +146,8 @@ export default function CardCart({
         />
       </div>
       <div
-        className={`${
-          !loading ? "hidden" : "block"
-        } absolute top-0 left-0 w-[100%] h-[100%] flex items-center justify-center`}
+        className={`${!loading ? "hidden" : "block"
+          } absolute top-0 left-0 w-[100%] h-[100%] flex items-center justify-center`}
       >
         <AiOutlineLoading
           className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-red-500`}

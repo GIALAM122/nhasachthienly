@@ -1,12 +1,13 @@
 // pages/About.js
 
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function About() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row">
-        
+
         {/* Nội dung giới thiệu */}
         <div className="md:w-2/3 pr-8">
           <h2 className="text-4xl font-bold text-gray-800 mb-6">Giới thiệu về Nhà sách Thiên Lý</h2>
@@ -18,7 +19,7 @@ export default function About() {
 
           <h3 className="text-2xl font-bold text-gray-800 mt-6 mb-2">Về chúng tôi</h3>
           <p className="text-lg text-gray-700 mb-4">
-            Nhà sách Thiên Lý được thành lập với sứ mệnh kết nối độc giả với những tác phẩm văn học đa dạng, từ sách giáo khoa, tiểu thuyết, đến sách kỹ năng và tự lực. 
+            Nhà sách Thiên Lý được thành lập với sứ mệnh kết nối độc giả với những tác phẩm văn học đa dạng, từ sách giáo khoa, tiểu thuyết, đến sách kỹ năng và tự lực.
             Chúng tôi tin rằng mỗi cuốn sách đều có sức mạnh để thay đổi cuộc sống và khơi dậy trí tưởng tượng của bạn.
           </p>
 
@@ -32,7 +33,7 @@ export default function About() {
 
           <h3 className="text-2xl font-bold text-gray-800 mt-6 mb-2">Liên hệ với chúng tôi</h3>
           <p className="text-lg text-gray-700 mb-4">
-            Nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ, hãy liên hệ với chúng tôi qua email: 
+            Nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ, hãy liên hệ với chúng tôi qua email:
             <a href="mailto:contact@nhasachthienly.com" className="text-blue-500"> contact@nhasachthienly.com</a>.
           </p>
 
@@ -52,10 +53,13 @@ export default function About() {
 
         {/* Ảnh logo hoặc banner */}
         <div className="md:w-1/3 flex justify-center">
-          <img 
-            src="https://img.upanh.tv/2024/10/25/author-1.png" // Đường dẫn tới ảnh logo (đảm bảo ảnh tồn tại trong thư mục public)
+          <Image
+            src="https://img.upanh.tv/2024/10/25/author-1.png"
             alt="Nhà sách Thiên Lý"
+            width={1000} // Next.js không hỗ trợ 'auto' cho width, bạn có thể dùng 'intrinsic' layout để giữ tỷ lệ ảnh
+            height={192} // h-48 tương đương với 12rem, tức là 192px
             className="h-48 w-auto"
+        
           />
         </div>
       </div>

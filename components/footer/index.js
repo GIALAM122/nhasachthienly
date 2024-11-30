@@ -26,20 +26,17 @@ export default function Footer() {
                 Về chúng tôi
               </h2>
               <ul>
-
                 <li className="text-sm capitalize">
-                  <a href="/gioi-thieu" className="hover:text-white cursor-pointer">
-                    Giới thiệu
-                  </a>
+                  <Link href="/gioi-thieu">
+                    <a className="hover:text-white cursor-pointer">Giới thiệu</a>
+                  </Link>
                 </li>
-
 
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
                     Tin tức
                   </span>
                 </li>
-         
               </ul>
             </div>
             <div className="p-4">

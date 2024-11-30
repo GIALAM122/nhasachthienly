@@ -5,6 +5,7 @@ import { storage } from '@/feature/firebase/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import Admin from "./layouts/Admin";
 import { IoIosAddCircle } from "react-icons/io";
+import Image from 'next/image';
 
 const DanhMucSach = () => {
     const [categories, setCategories] = useState([]);
@@ -165,14 +166,22 @@ const DanhMucSach = () => {
                             <td className="py-3 px-4 border-b text-center">{category.id}</td>
                             <td className="py-3 px-4 border-b text-center font-bold">{category.name}</td>
                             <td className="py-3 px-4 border-b text-center">
-                                <img src={category.img} alt={category.name} className="w-16 h-16 object-cover mx-auto" />
+                                <div className="">
+                                    <Image
+                                        src={category.img}
+                                        alt={category.name}
+                                        width={100}
+                                        height={100}
+                                        className="object-cover w-16 h-16 mx-auto"
+                                    />
+                                </div>
                             </td>
                             <td className="py-3 px-4 border-b text-center">
                                 <button onClick={() => handleOpenEditModal(category)} className="bg-yellow-500 text-white w-[80px] px-3 py-2 rounded mx-1">
-                                <i class="fa-solid fa-pen"></i>
+                                    <i class="fa-solid fa-pen"></i>
                                 </button>
                                 <button onClick={() => confirmDeleteCategory(category.id)} className="bg-red-500 text-white  w-[80px] px-3 py-2 rounded mx-1">
-                                <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -219,7 +228,17 @@ const DanhMucSach = () => {
                             </form>
                         </div>
                         <div className="w-full md:w-1/2 flex justify-center items-center">
-                            {imgURL && <img src={imgURL} alt="Preview" className="w-40 h-40 object-cover border" />}
+                            {imgURL && (
+                                <div className="w-40 h-40 relative">
+                                    <Image
+                                        src={imgURL}
+                                        alt="Preview"
+                                        width={160}
+                                        height={160}
+                                        className="object-cover border"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -264,8 +283,14 @@ const DanhMucSach = () => {
                             <div className="flex flex-col items-center">
                                 <label className="block text-gray-700 mb-2">Ảnh hiện tại</label>
                                 {imgURL ? (
-                                    <img src={imgURL} alt="Hình ảnh danh mục" className="w-32 h-32 object-cover mb-4" />
-                                ) : (
+
+                                    <Image
+                                        src={imgURL}
+                                        alt="Hình ảnh danh mục"
+                                        width={128}
+                                        height={128}
+                                        className="object-cover mb-4"
+                                    />) : (
                                     <p className="text-gray-500">Chưa có hình ảnh</p>
                                 )}
                             </div>

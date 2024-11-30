@@ -1,5 +1,3 @@
-import { getData } from "@/feature/firebase/firebaseAuth";
-
 export default async function handle(req, res) {
   const { method } = req;
   if (method === "GET") {
@@ -10,5 +8,7 @@ export default async function handle(req, res) {
       console.error(error);
       res.status(500).json({ message: "Something went wrong" });
     }
+  } else {
+    res.status(405).json({ message: "Method Not Allowed" });
   }
 }

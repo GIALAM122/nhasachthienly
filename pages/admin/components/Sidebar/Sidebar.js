@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FaClipboardList } from "react-icons/fa6";
 import NotificationDropdown from "../../components/Dropdowns/NotificationDropdown";
 import UserDropdown from "../../components/Dropdowns/UserDropdown.js";
+import Image from 'next/image';
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -23,7 +24,13 @@ export default function Sidebar() {
           </button>
 
           <Link href="/" className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0 flex justify-center">
-            <img src="https://img.upanh.tv/2024/11/07/logoad.png" alt="Logo" className="w-auto h-16" />
+            <Image
+              src="https://img.upanh.tv/2024/11/07/logoad.png"
+              alt="Logo"
+              width={1000} // Next.js không hỗ trợ 'auto' cho width, nhưng bạn có thể để width tự động dựa trên ảnh
+              height={1000} // h-16 tương đương với 4rem hoặc 64px
+              className="h-16 w-auto" // Chỉ áp dụng chiều cao với Tailwind
+            />
           </Link>
 
 

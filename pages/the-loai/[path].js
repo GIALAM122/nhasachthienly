@@ -46,7 +46,9 @@ const CategoryPage = ({ category }) => {
   }
 
   return (
+
     <div className="container mx-auto px-4">
+      <title>Thiên Lý - {category.path}</title>
       <h1 className="text-3xl font-bold text-left my-6 uppercase text-blue-600">{category}</h1>
 
       {/* Nút sắp xếp */}

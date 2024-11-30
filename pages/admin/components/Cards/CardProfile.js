@@ -1,4 +1,5 @@
 import React from "react";
+import Image from 'next/image';
 
 // components
 
@@ -10,9 +11,11 @@ export default function CardProfile() {
           <div className="flex flex-wrap justify-center">
             <div className="w-full px-4 flex justify-center">
               <div className="relative">
-                <img
+                <Image
                   alt="..."
                   src="/img/team-2-800x800.jpg"
+                  width={150} // Đảm bảo chiều rộng tối đa của ảnh là 150px
+                  height={150} // Đảm bảo chiều cao tối đa của ảnh là 150px
                   className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px"
                 />
               </div>
