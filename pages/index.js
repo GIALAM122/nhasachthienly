@@ -50,7 +50,7 @@ export default function Home() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: true, 
     autoplaySpeed: 3000,
     nextArrow: null,
     prevArrow: null,
