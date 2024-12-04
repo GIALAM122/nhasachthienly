@@ -94,15 +94,33 @@ export default function Sidebar() {
                 { href: "/admin/products", icon: "fas fa-book", label: "Sách" },
                 { href: "/admin/users", icon: "fas fa-user", label: "Người dùng" },
                 { href: "/admin/orders", icon: "fa-solid fa-check", label: "Đơn hàng" },
-              ].map(({ href, icon, label }) => (
-                <li className="items-center" key={href}>
-                  <Link href={href} className={`text-xs uppercase py-3 font-bold block ${router.pathname.includes(href) ? "text-lightBlue-500 hover:text-lightBlue-600" : "text-blueGray-700 hover:text-blueGray-500"}`}>
-                    <i className={`${icon} mr-2 text-sm ${router.pathname.includes(href) ? "opacity-75" : "text-blueGray-300"}`}></i>
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              ].map(({ href, icon, label }) => {
+                const isActive = router.pathname.includes(href);
+                return (
+                  <li
+                    className={`items-center ${isActive ? "bg-cyan-500 text-white rounded-md" : ""
+                      }`}
+                    key={href}
+                  >
+                    <Link
+                      href={href}
+                      className={`text-xs uppercase py-3 px-4 font-bold block ${isActive
+                          ? "text-white hover:text-white"
+                          : "text-blueGray-700 hover:text-blueGray-500"
+                        }`}
+                    >
+                      <i
+                        className={`${icon} mr-2 text-sm ${isActive ? "text-white" : "text-blueGray-300"
+                          }`}
+                      ></i>
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
+
+
 
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />

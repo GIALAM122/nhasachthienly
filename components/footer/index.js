@@ -27,11 +27,10 @@ export default function Footer() {
               </h2>
               <ul>
                 <li className="text-sm capitalize">
-                  <Link href="/gioi-thieu">
-                    <a className="hover:text-white cursor-pointer">Giới thiệu</a>
+                  <Link href="/gioi-thieu" className="hover:text-white cursor-pointer">
+                    Giới thiệu
                   </Link>
                 </li>
-
                 <li className="text-sm capitalize">
                   <span className="hover:text-white cursor-pointer">
                     Tin tức
@@ -75,7 +74,7 @@ export default function Footer() {
             </div>
             <DownloadApp />
           </div>
-  
+
           <hr />
           <div className="flex justify-between py-10">
             <div className="p-4">

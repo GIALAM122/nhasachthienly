@@ -10,7 +10,7 @@
     "export": "next build && next export"
   },
   "engines": {
-    "node": "20.10.0"
+    "node": "20.18.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
@@ -27,6 +27,7 @@
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.6",
     "cookies-next": "^4.3.0",
+    "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.1",
@@ -36,7 +37,7 @@
     "font-awesome": "^4.7.0",
     "gulp": "^5.0.0",
     "jsonwebtoken": "^9.0.2",
-    "next": "^14.2.16",
+    "next": "^15.0.3",
     "postcss": "8.4.23",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
