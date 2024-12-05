@@ -161,28 +161,28 @@ export default function Dashboard() {
   };
 
   //xóa sản phẩm
-  const handleDeleteProduct = async () => {
-    if (!productToDelete) return;
+  // const handleDeleteProduct = async () => {
+  //   if (!productToDelete) return;
 
-    // Tìm sản phẩm cần xóa trong danh sách sản phẩm hiện có
-    const product = products.find(p => p.id === productToDelete);
+  //   // Tìm sản phẩm cần xóa trong danh sách sản phẩm hiện có
+  //   const product = products.find(p => p.id === productToDelete);
 
-    // Kiểm tra nếu sản phẩm vẫn đang hiển thị
-    if (!product || product.visible) {
-      setDeleteError("Sản phẩm phải được ẩn trước khi xóa.");
-      return;
-    }
+  //   // Kiểm tra nếu sản phẩm vẫn đang hiển thị
+  //   if (!product || product.visible) {
+  //     setDeleteError("Sản phẩm phải được ẩn trước khi xóa.");
+  //     return;
+  //   }
 
-    try {
-      await deleteDoc(doc(db, 'products', productToDelete));
-      setProducts(products.filter(product => product.id !== productToDelete));
-      closeDeleteModal();
-      setDeleteError(""); // Xóa lỗi sau khi xóa thành công
-    } catch (error) {
-      console.error("Error deleting document: ", error);
-      setDeleteError("Có lỗi xảy ra khi xóa sản phẩm.");
-    }
-  };
+  //   try {
+  //     await deleteDoc(doc(db, 'products', productToDelete));
+  //     setProducts(products.filter(product => product.id !== productToDelete));
+  //     closeDeleteModal();
+  //     setDeleteError(""); // Xóa lỗi sau khi xóa thành công
+  //   } catch (error) {
+  //     console.error("Error deleting document: ", error);
+  //     setDeleteError("Có lỗi xảy ra khi xóa sản phẩm.");
+  //   }
+  // };
 
   const resetForm = () => {
     setName('');
@@ -239,7 +239,7 @@ export default function Dashboard() {
 
       <button
         onClick={() => setIsAddModalOpen(true)}
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4 flex items-center"
+        className="bg-cyan-500 text-white px-4 py-2 rounded mb-4 flex items-center font-semibold"
       >
         <IoIosAddCircle className="mr-2" />
         Thêm sản phẩm mới
@@ -250,6 +250,7 @@ export default function Dashboard() {
         handleOpenEditModal={handleOpenEditModal}
         toggleProductVisibility={toggleProductVisibility}
         openDeleteModal={openDeleteModal}
+        setCurrentPage={setCurrentPage}
       />
       <AddProductModal
         isAddModalOpen={isAddModalOpen}
