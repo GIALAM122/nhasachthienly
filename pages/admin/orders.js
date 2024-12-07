@@ -63,7 +63,9 @@ const OrdersPage = () => {
 
     return (
         <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-            <h1 className="text-2xl font-bold mb-4 uppercase">Danh sách đơn hàng</h1>
+              <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
+       Danh sách đơn hàng
+      </h1>
 
             <input
                 type="text"

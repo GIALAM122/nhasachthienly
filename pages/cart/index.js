@@ -64,7 +64,16 @@ export default function Cart() {
           <EmptyCart />
         ) : (
           <>
-            <div className="w-[60%]">
+            <div className="w-[70%] border border-gray-300 rounded-lg">
+              {/* Header */}
+              <div className="grid grid-cols-4 gap-4 bg-white text-black py-3 px-4 rounded-t-lg border-b border-gray-300">
+                <div className="font-bold text-left">Thông tin sản phẩm</div>
+                <div className="relative font-bold left-[190px] text-left">Giá</div>
+                <div className="relative font-bold left-[75px] text-center">Số lượng</div>
+                <div className="font-bold mr-10 text-center">Thành tiền</div>
+              </div>
+
+              {/* Các sản phẩm */}
               {cart.map((item) => (
                 <CardCart
                   callback={(value) => handleCounter(value)}
@@ -73,7 +82,8 @@ export default function Cart() {
                 />
               ))}
             </div>
-            <div className="w-[38%]">
+
+            <div className="w-[28%]">
               <div className="sticky top-[150px] my-4 box-shadow p-6 rounded-xl ">
                 <h2 className="oswald text-3xl uppercase border-b pb-4 border-[#ccc]">
                   {totalBook} Sách

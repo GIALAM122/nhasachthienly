@@ -222,6 +222,7 @@ export default function Dashboard() {
     setIsDeleteModalOpen(false);
   };
 
+  const allProducts = filteredProducts;
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -229,7 +230,10 @@ export default function Dashboard() {
 
   return (
     <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-      <h1 className="text-2xl font-bold mb-4">QUẢN LÝ SÁCH</h1>
+      <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
+        QUẢN LÝ SÁCH
+      </h1>
+
       <input
         type="text"
         placeholder="Tìm sản phẩm..."
@@ -250,6 +254,7 @@ export default function Dashboard() {
         handleOpenEditModal={handleOpenEditModal}
         toggleProductVisibility={toggleProductVisibility}
         openDeleteModal={openDeleteModal}
+        allProducts={allProducts} 
         setCurrentPage={setCurrentPage}
       />
       <AddProductModal

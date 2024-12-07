@@ -86,7 +86,9 @@ const DanhMucSach = () => {
 
     return (
         <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-            <h1 className="text-2xl font-bold mb-4">Danh mục sách</h1>
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
+                DANH MỤC SÁCH
+            </h1>
             <input
                 type="text"
                 placeholder="Tìm kiếm theo tên không dấu"
@@ -96,7 +98,7 @@ const DanhMucSach = () => {
             />
             <button
                 onClick={() => setIsAddModalOpen(true)}
-                className="bg-blue-500 text-white px-4 py-2 rounded mb-4 flex items-center"
+                className="bg-cyan-500 text-white px-4 py-2 rounded mb-4 flex items-center font-semibold"
             >
                 <IoIosAddCircle className="mr-2" /> Thêm danh mục mới
             </button>

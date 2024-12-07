@@ -1,12 +1,8 @@
-import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
-import Counter from "../counter";
-import { IoIosArrowDown } from "react-icons/io";
-import { AiOutlineLoading } from "react-icons/ai";
 import AuthContext from "@/feature/auth-context";
 import axios from "axios";
-import Link from "next/link";
 import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+import CardCartUI from "./cartUI";
 
 export default function CardCart({
   img,
@@ -15,33 +11,29 @@ export default function CardCart({
   name,
   price,
   quantity,
-  initialVisible, // New prop for initial visibility status from products
+  initialVisible,
   callback,
 }) {
   const { increment, decrement, userInfo } = useContext(AuthContext);
   const [show, setShow] = useState(true);
   const [value, setValue] = useState(quantity);
   const [loading, setLoading] = useState(false);
-  const [display, setDisplay] = useState(initialVisible); // Initialize with initialVisible prop
+  const [display, setDisplay] = useState(initialVisible);
 
-  // Firestore reference
   const db = getFirestore();
 
-  // Listen for visibility changes in the product document
   useEffect(() => {
-    const docRef = doc(db, "products", id); // Adjust 'products' to your collection name
+    const docRef = doc(db, "products", id);
     const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
       if (docSnapshot.exists()) {
         const data = docSnapshot.data();
-        // Update the display based on the visible field from Firestore
         setDisplay(data.visible);
         if (!data.visible) {
-          handleDelete(); // Optionally remove the item from cart if not visible
+          handleDelete();
         }
       }
     });
 
-    // Clean up the listener on unmount
     return () => unsubscribe();
   }, [id, db]);
 
@@ -64,7 +56,6 @@ export default function CardCart({
     setValue(value - 1);
     decrement();
     callback({ price: -price });
-
   };
 
   const handleIncrement = async () => {
@@ -99,60 +90,21 @@ export default function CardCart({
     }
   };
 
-  if (!display) return null; // Don't render if not visible
-
   return (
-    <div
-      className={`${display ? "flex" : "hidden"
-        } relative p-3 box-shadow my-4 relative rounded ${loading ? "opacity-50" : ""
-        }`}
-    >
-      <Image src={img} alt="" width={200} height={200} className="w-40 h-37 object-cover" />
-      <div className="p-4 flex flex-col justify-between">
-        <h2 className="font-bold uppercase">
-          <Link href={`/kham-pha/order/${id}`} className="text-black hover:text-cyan-500">
-            {name}
-          </Link>
-        </h2>
-
-        <div>
-          {/* <span
-            onClick={() => setShow(!show)}
-            className="flex text-xs text-[#333] mt-2 cursor-pointer flex items-center"
-          >
-            Xem chi tiết
-            <IoIosArrowDown className={`w-5 h-5 ${!show && "rotate-180"}`} />
-          </span> */}
-          <p
-            className={`${show ? "hidden" : "block"
-              } w-[45%] text-[#999] text-[15px] block`}
-          >
-            {description}
-          </p>
-        </div>
-        <span
-          onClick={handleDelete}
-          className="cursor-pointer hover:text-cyan-500 roboto text-red-600"
-        >
-          Xóa
-        </span>
-      </div>
-      <div className="absolute right-4 top-[50%]">
-        <Counter
-          price={price}
-          quantity={value}
-          decrement={handleDecrement}
-          increment={handleIncrement}
-        />
-      </div>
-      <div
-        className={`${!loading ? "hidden" : "block"
-          } absolute top-0 left-0 w-[100%] h-[100%] flex items-center justify-center`}
-      >
-        <AiOutlineLoading
-          className={`top-[24%] right-[47%] animate-spin w-10 h-10 text-red-500`}
-        />
-      </div>
-    </div>
+    <CardCartUI
+      img={img}
+      name={name}
+      id={id}
+      description={description}
+      price={price}
+      value={value}
+      show={show}
+      display={display}
+      loading={loading}
+      handleDelete={handleDelete}
+      handleIncrement={handleIncrement}
+      handleDecrement={handleDecrement}
+      setShow={setShow}
+    />
   );
 }

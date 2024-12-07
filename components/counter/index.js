@@ -21,7 +21,7 @@ export default function Counter({
         className="cursor-pointer w-7 h-7" 
         onClick={increment}
       />
-      <span className={`${block ? "hidden" : ""} font-bold roboto ml-10`}>
+      <span className={`${block ? "hidden" : ""} font-bold text-red-500 roboto ml-10`}>
         {formatMoney(price * quantity)} ₫
       </span>
     </div>

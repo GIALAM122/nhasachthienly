@@ -7,7 +7,7 @@ export default function CardList({ img, name, path }) {
     <div className="list-shadow w-[265px] overflow-hidden rounded">
       <div className="overflow-hidden">
         <Image
-          className="w-[265px] h-[223px] hover:scale-110 duration-700"
+          className="w-[265px] h-[240px] hover:scale-110 duration-700"
           src={img}
           width={500}
           height={500}
