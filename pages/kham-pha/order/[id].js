@@ -10,7 +10,6 @@ import RelatedProductsSlider from "@/components/book-detail/SameDetail";
 import StarRating from "@/components/book-detail/StarRating";
 import BookIntroDetails from "@/components/book-detail/BookIntroDetails";
 
-
 export default function Order() {
   const { userInfo, increment } = useContext(AuthContext);
   const router = useRouter();
@@ -81,18 +80,13 @@ export default function Order() {
             alt={product.name}
           />
         </div>
-
-
-
         <div className="w-full md:w-2/3">
           <ProductDetails
             product={product}
             quantity={quantity}
             setQuantity={setQuantity}
             handleAddItem={handleAddItem}
-
           />
-    
         </div>
       </div>
       <BookIntroDetails product={product} />

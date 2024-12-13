@@ -49,7 +49,7 @@ export default function KhamPha() {
 
   async function fetchType() {
     try {
-      const res = await axios.get("/api/favourite");
+      const res = await axios.get("/api/categories");
       const data = await res.data;
       setTypes(data);
     } catch (error) {

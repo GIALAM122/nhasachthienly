@@ -125,13 +125,14 @@ export default function NavMenu({ callback }) {
       </Link>
       <Link className="mx-2" href="/cart">
         <div
-          className={`${quantityCart !== 0 ? "logo-cart" : "logo-empty-cart"
+          className={`${quantityCart !== 0 ? "logo-empty-cart" : "logo-empty-cart"
             } cursor-pointer leading-[50px] text-center bg-[url('https://cdn-icons-png.flaticon.com/128/34/34568.png')] bg-no-repeat w-[45px] h-[38px] bg-[length:70%] relative`}
         >
-          <span className="text-[15px] absolute top-[-29px]  right-[5px] translate-x-[-50%]">
+          <span className="text-[13px] font-bold absolute top-[-5px] right-[-6px] w-[20px] h-[14px] bg-green-500 text-white rounded-full text-center leading-[12px] flex items-center justify-center">
             {quantityCart}
           </span>
         </div>
+
 
       </Link>
       <GiHamburgerMenu

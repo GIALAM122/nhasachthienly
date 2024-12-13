@@ -9,21 +9,16 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
   const [sortOrder, setSortOrder] = useState(''); // Quản lý thứ tự sắp xếp
   const [selectedCategories, setSelectedCategories] = useState([]); // Quản lý danh mục đã chọn
   const [isFilterVisible, setIsFilterVisible] = useState(true); // Quản lý trạng thái hiển thị lọc
-
   // Các danh mục có thể lọc
   const allCategories = [...new Set(allProducts.flatMap(product => product.categories))];
-
-
   // Hàm xử lý sắp xếp sản phẩm theo giá
   const handleSortChange = (order) => {
     setSortOrder(order);
-
   };
   const handleShowLatestChange = () => {
     setShowLatest((prev) => !prev);
     setCurrentPage(1); // Đặt lại trang về 1
   };
-
   // Hàm xử lý thay đổi lựa chọn danh mục
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>

@@ -1,7 +1,6 @@
-// components/UserList.js
 import React from "react";
 
-const UserList = ({ users, searchTerm, onDelete }) => {
+const UserList = ({ users, searchTerm, onDelete, onToggleBlock }) => {
   const filteredUsers = users.filter(
     (user) =>
       (user.account &&
@@ -15,10 +14,11 @@ const UserList = ({ users, searchTerm, onDelete }) => {
       <table className="min-w-full table-fixed text-sm text-gray-700">
         <thead className="bg-cyan-500 text-white text-center">
           <tr>
-            <th className="py-3 px-6 font-semibold text-lg w-1/4">Tài khoản</th>
-            <th className="py-3 px-6 font-semibold text-lg w-1/4">Tên</th>
-            <th className="py-3 px-6 font-semibold text-lg w-1/4">Số điện thoại</th>
-            <th className="py-3 px-6 font-semibold text-lg w-1/4">Hành động</th>
+            <th className="py-3 px-6 font-semibold text-lg w-1/5">Tài khoản</th>
+            <th className="py-3 px-6 font-semibold text-lg w-1/5">Tên</th>
+            <th className="py-3 px-6 font-semibold text-lg w-1/5">Số điện thoại</th>
+            <th className="py-3 px-6 font-semibold text-lg w-1/5">Trạng thái</th>
+            <th className="py-3 px-6 font-semibold text-lg w-1/5">Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -28,12 +28,26 @@ const UserList = ({ users, searchTerm, onDelete }) => {
               <td className="py-4 px-6 border-b border-gray-200 text-center">{user.name}</td>
               <td className="py-4 px-6 border-b border-gray-200 text-center">{user.phone}</td>
               <td className="py-4 px-6 border-b border-gray-200 text-center">
+                {user.isBlocked ? "Bị khóa" : "Hoạt động"}
+              </td>
+              <td className="py-4 px-6 border-b border-gray-200 text-center space-x-2">
+              <button
+                  onClick={() => onToggleBlock(user.id, !user.isBlocked)}
+                  className={`px-4 py-2 rounded-md transition-colors ${
+                    user.isBlocked
+                      ? "bg-green-600 text-white hover:bg-green-700"
+                      : "bg-yellow-600 text-white hover:bg-yellow-700"
+                  }`}
+                >
+                  {user.isBlocked ? "Mở khóa" : "Khóa"}
+                </button>
                 <button
                   onClick={() => onDelete(user.id)}
                   className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
                 >
                   Xóa
                 </button>
+   
               </td>
             </tr>
           ))}

@@ -8,7 +8,7 @@ import Image from "next/image";
 export default function Footer() {
   const [type, setType] = useState(null);
   async function getType() {
-    const res = await axios.get("/api/favourite");
+    const res = await axios.get("/api/categories");
     const data = await res.data;
     setType(data);
   }

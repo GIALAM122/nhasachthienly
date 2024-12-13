@@ -77,7 +77,7 @@ export default function CardBook({ description, name, img, price, id, visible, m
             onClick={userInfo ? handleAdd : () => router.push("/login")}
             className={`btn-shadow w-full bg-red-600 rounded-full py-2 cursor-pointer font-bold text-white transition-colors duration-300`}
           >
-            Thêm
+            Thêm vào giỏ hàng
           </button>
         ) : (
           <ButtonLoading />

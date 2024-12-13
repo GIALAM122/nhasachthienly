@@ -1,18 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { doc, updateDoc, getDoc, arrayUnion } from "firebase/firestore";
 import { db } from "@/feature/firebase/firebase";
+import AuthContext from "@/feature/auth-context";
 
-const StarRating = ({ productId, userInfo, ratings }) => {
+const StarRating = ({ productId, ratings }) => {
+  const { userInfo } = useContext(AuthContext);
   const [userRating, setUserRating] = useState(null);
   const [averageRating, setAverageRating] = useState(
     ratings?.length
       ? ratings.reduce((sum, r) => sum + r.rating, 0) / ratings.length
       : 0
   );
+  const [hasPurchased, setHasPurchased] = useState(false);
+
+  useEffect(() => {
+    const checkPurchaseStatus = async () => {
+      if (!userInfo) return;
+      
+      // Kiểm tra nếu người dùng đã mua sản phẩm từ collection "previous-order"
+      const previousOrderRef = doc(db, "previous-order", userInfo.uid);
+      const previousOrderSnapshot = await getDoc(previousOrderRef);
+      const previousOrderData = previousOrderSnapshot.data();
+
+      // Kiểm tra nếu sản phẩm đã có trong đơn hàng
+      if (previousOrderData?.items) {
+        const purchased = previousOrderData.items.some(item =>
+          item.list_item.some(product => product.id === productId)
+        );
+        setHasPurchased(purchased);
+      }
+    };
+
+    checkPurchaseStatus();
+  }, [userInfo, productId]);
 
   const handleRating = async (rating) => {
     if (!userInfo) {
       alert("Bạn cần đăng nhập để đánh giá!");
+      return;
+    }
+
+    if (!hasPurchased) {
+      alert("Bạn phải mua sản phẩm trước khi đánh giá!");
       return;
     }
 

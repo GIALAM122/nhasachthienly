@@ -4,10 +4,12 @@ const ProductDetails = ({ product, quantity, setQuantity, handleAddItem }) => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg">
       {/* Tên sách */}
-      <h2 className="text-4xl md:text-5xl font-bold uppercase oswald mb-4">
+      <h2
+        className="text-4xl md:text-5xl font-bold pd-2 uppercase oswald mb-4"
+        style={{ lineHeight: "1.5" }}
+      >
         {product.name}
       </h2>
-
       {/* Mô tả sách */}
       <p className="text-lg md:text-xl text-gray-700 mb-6">{product.description}</p>
 
@@ -19,14 +21,6 @@ const ProductDetails = ({ product, quantity, setQuantity, handleAddItem }) => {
           <li className="capitalize">
             <strong>Tác giả:</strong> {product.author || "Đang cập nhật"}
           </li>
-          <li className="capitalize">
-            <strong>Thể loại:</strong>{" "}
-            {product.categories
-              ? product.categories.map(
-                  (category) => category.charAt(0).toUpperCase() + category.slice(1)
-                ).join(", ")
-              : "Đang cập nhật"}
-          </li>
           <li>
             <strong>Giá:</strong>
             <span className="text-red-600 text-xl ml-2 font-bold">
@@ -35,7 +29,7 @@ const ProductDetails = ({ product, quantity, setQuantity, handleAddItem }) => {
           </li>
         </ul>
       </div>
-      
+
 
       {/* Nút thêm vào giỏ và bộ đếm số lượng */}
       <div className="mt-6 flex items-center justify-between">
@@ -53,7 +47,7 @@ const ProductDetails = ({ product, quantity, setQuantity, handleAddItem }) => {
         </button>
       </div>
     </div>
-    
+
   );
 };
 

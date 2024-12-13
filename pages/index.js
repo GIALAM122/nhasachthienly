@@ -21,7 +21,7 @@ export default function Home() {
 
   // Fetch favorite books
   async function fetchData() {
-    const res = await axios.get("/api/favourite");
+    const res = await axios.get("/api/categories");
     const data = await res.data;
     setListBook(data);
     setLoading(true);

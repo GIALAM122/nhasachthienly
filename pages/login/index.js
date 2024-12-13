@@ -14,10 +14,16 @@ export default function Login() {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   const [errorInput, setErrorInput] = useState({});
+  const [loginError, setLoginError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
+
+  const closePopup = () => setPopupVisible(false);
 
   const handleLogin = async () => {
     setLoading(true);
+    setLoginError(""); // Reset lỗi đăng nhập trước khi kiểm tra
+
     const listInput = [
       { type: "password", input: password },
       { type: "account", input: account },
@@ -28,7 +34,7 @@ export default function Login() {
     if (Object.keys(errors).length === 0) {
       const { result, error } = await signInWithEmailAndPassword(account, password);
       setLoading(false);
-      
+
       if (!error) {
         const id = result.user.uid;
         const user = await getItem("users", id).catch((error) => {
@@ -38,29 +44,25 @@ export default function Login() {
 
         if (!user) {
           await signOut();
+        } else if (user.isBlocked) {
+          setPopupVisible(true);
+          await signOut();
         } else {
           router.push(user.role === "admin" ? "/admin" : "/");
-          
         }
       } else {
-        alert("Thông tin tài khoản hoặc mật khẩu không chính xác");
+        setLoginError("Thông tin tài khoản hoặc mật khẩu không chính xác");
       }
     } else {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (userInfo) {
-      router.push("/user");
-    }
-  }, [userInfo]);
-
   const loginWithGoogle = async () => {
     setLoading(true);
     const { result, error } = await signInGoogle();
     setLoading(false);
-    
+
     if (!error) {
       const uid = result.uid;
       const user = await getItem("users", uid);
@@ -68,12 +70,17 @@ export default function Login() {
       if (!user) {
         const data = {
           account: result.email,
-          password,
+          password: "", // Mặc định để trống
           phone: result.phoneNumber,
           name: result.displayName,
           role: "user",
+          isBlocked: false, // Trường mặc định
         };
         await addDataWithID("users", uid, data);
+      } else if (user.isBlocked) {
+        setPopupVisible(true);
+        await signOut();
+        return;
       }
 
       router.push(user && user.role === "admin" ? "/admin" : "/");
@@ -96,6 +103,7 @@ export default function Login() {
         type="password"
         error={errorInput.password}
       />
+      {loginError && <div className="text-red-500 text-sm mt-2">{loginError}</div>}
       <div className="text-right mt-10 text-sm cursor-pointer">Bạn quên mật khẩu ?</div>
       <button
         onClick={handleLogin}
@@ -118,6 +126,21 @@ export default function Login() {
           Tạo tài khoản
         </Link>
       </div>
+
+      {isPopupVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-xl font-semibold mb-4">Thông báo</h3>
+            <p className="mb-6">Tài khoản của bạn đã bị khóa.</p>
+            <button
+              onClick={closePopup}
+              className="px-4 py-2 bg-red-500 text-white rounded-md"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      )}
     </LayoutForm>
   );
 }

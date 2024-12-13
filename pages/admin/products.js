@@ -33,6 +33,9 @@ export default function Dashboard() {
   const [productToDelete, setProductToDelete] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [deleteError, setDeleteError] = useState("");
+  
+
+  //hiển thị sản phẩm
   const fetchProducts = async () => {
     const querySnapshot = await getDocs(collection(db, 'products'));
     const productsList = querySnapshot.docs.map(doc => {
@@ -43,9 +46,17 @@ export default function Dashboard() {
         timestamp: data.timestamp ? data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp) : null
       };
     });
-    productsList.sort((a, b) => b.timestamp - a.timestamp);
-    setProducts(productsList);
+  
+    // Lọc các sản phẩm có trường visible là true
+    const visibleProducts = productsList.filter(product => product.visible === true);
+  
+    // Sắp xếp theo timestamp
+    visibleProducts.sort((a, b) => b.timestamp - a.timestamp);
+  
+    // Cập nhật state
+    setProducts(visibleProducts);
   };
+  
 
   const fetchCategories = async () => {
     const querySnapshot = await getDocs(collection(db, 'DanhMucSach'));
@@ -145,8 +156,6 @@ export default function Dashboard() {
     await fetchProducts();
   };
 
-
-
   const handleOpenEditModal = (product) => {
     setCurrentProduct(product);
     setName(product.name);
@@ -159,30 +168,6 @@ export default function Dashboard() {
     setImageURL(product.img);
     setIsEditModalOpen(true);
   };
-
-  //xóa sản phẩm
-  // const handleDeleteProduct = async () => {
-  //   if (!productToDelete) return;
-
-  //   // Tìm sản phẩm cần xóa trong danh sách sản phẩm hiện có
-  //   const product = products.find(p => p.id === productToDelete);
-
-  //   // Kiểm tra nếu sản phẩm vẫn đang hiển thị
-  //   if (!product || product.visible) {
-  //     setDeleteError("Sản phẩm phải được ẩn trước khi xóa.");
-  //     return;
-  //   }
-
-  //   try {
-  //     await deleteDoc(doc(db, 'products', productToDelete));
-  //     setProducts(products.filter(product => product.id !== productToDelete));
-  //     closeDeleteModal();
-  //     setDeleteError(""); // Xóa lỗi sau khi xóa thành công
-  //   } catch (error) {
-  //     console.error("Error deleting document: ", error);
-  //     setDeleteError("Có lỗi xảy ra khi xóa sản phẩm.");
-  //   }
-  // };
 
   const resetForm = () => {
     setName('');
@@ -306,50 +291,6 @@ export default function Dashboard() {
         handleUpdateProduct={handleUpdateProduct}
         resetForm={resetForm}
       />
-      {isDeleteModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-center">
-            <h2 className="text-lg font-bold mb-4">Bạn có chắc chắn muốn xóa sản phẩm này?</h2>
-
-            {/* Hiển thị lỗi nếu sản phẩm chưa ẩn */}
-            {deleteError && <p className="text-red-500 mb-4">{deleteError}</p>}
-
-            <div className="flex justify-center">
-              {deleteError ? (
-                // Chỉ hiển thị nút "OK" khi có lỗi
-                <button
-                  onClick={() => {
-                    closeDeleteModal();
-                    setDeleteError(""); // Đặt lại lỗi khi đóng modal
-                  }}
-                  className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
-                >
-                  OK
-                </button>
-              ) : (
-                // Hiển thị nút "Xóa" và "Hủy" khi không có lỗi
-                <>
-                  <button
-                    onClick={handleDeleteProduct}
-                    className="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600 transition mr-2"
-                  >
-                    Xóa
-                  </button>
-                  <button
-                    onClick={() => {
-                      closeDeleteModal();
-                      setDeleteError(""); // Đặt lại lỗi khi đóng modal
-                    }}
-                    className="bg-gray-300 text-black px-4 py-2 rounded shadow hover:bg-gray-400 transition"
-                  >
-                    Hủy
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
       {/* Pagination */}
       <Pagination currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
     </div>
