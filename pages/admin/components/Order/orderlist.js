@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrderList = ({ orders, filteredOrders, handleCardClick, handleStatusChange }) => {
+const OrderList = ({ orders, filteredOrders, handleCardClick, handleStatusChange, handleDeleteClick }) => {
     const orderStatusOptions = ['Đang xử lý', 'Đã giao', 'Đã hủy'];
 
     return (
@@ -19,10 +19,9 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleStatusChange
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredOrders.map((item, index) => (
+                    {filteredOrders.map((item) => (
                         <tr
-                            key={index}
-
+                            key={item.orderId} // Sử dụng orderId thay vì index làm key
                             className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
                         >
                             <td className="py-4 px-6 text-sm text-gray-700">{item.customer_info?.name || "Chưa rõ"}</td>
@@ -46,9 +45,21 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleStatusChange
                                     ))}
                                 </select>
                             </td>
-                            <td key={index}
-                                onClick={() => handleCardClick(item)} className="py-4 px-6 text-sm text-blue-500">
-                                <button className="font-semibold hover:underline">Chi tiết</button>
+                            <td className="py-4 px-6 text-sm text-gray-500">
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => handleCardClick(item)} 
+                                        className="font-semibold text-blue-500 hover:underline"
+                                    >
+                                        Chi tiết
+                                    </button>
+                                    <button
+                                        onClick={() => handleDeleteClick(item)} 
+                                        className="font-semibold text-red-500 hover:underline"
+                                    >
+                                        Xóa
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}

@@ -8,12 +8,6 @@ const SortOptions = ({ sortOption, setSortOption }) => {
                 <PiSortAscendingBold className="mr-2 text-lg" /> Sắp xếp theo:
             </span>
             <button
-                onClick={() => setSortOption("default")}
-                className={`px-4 py-2 rounded border ${sortOption === "default" ? "bg-blue-500 text-white" : "bg-white text-gray-700"}`}
-            >
-                Mặc định
-            </button>
-            <button
                 onClick={() => setSortOption("newest")}
                 className={`px-4 py-2 rounded border ${sortOption === "newest" ? "bg-blue-500 text-white" : "bg-white text-gray-700"}`}
             >

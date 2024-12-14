@@ -43,6 +43,7 @@ export default function CardBook({ description, name, img, price, id, visible, m
             src={img}
             alt="Product Image"
             layout="fill"
+        
           />
         </Link>
         <div className=" absolute inset-0 bg-black bg-opacity-50 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">

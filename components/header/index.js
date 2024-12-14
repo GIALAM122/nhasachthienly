@@ -61,23 +61,24 @@ export default function Header() {
           </li>
           {/* Dropdown Sách Thiên Lý */}
           <li className="relative group px-4">
-            <span className="text-md capitalize roboto font-extrabold text-gray-800 cursor-pointer hover:text-cyan-500">
-              Sách Thiên Lý
-            </span>
-            <ul className="absolute left-0 top-full w-80 bg-white shadow-lg rounded-md hidden group-hover:block transition-all transform scale-95 group-hover:scale-100 grid grid-cols-2 gap-4 p-4">
-              {categories.map((category) => (
-                <li key={category.id} className="hover:bg-gray-200">
-                  <Link
-                    href={`/the-loai/${category.path}`} // Sử dụng path từ thể loại
-                    className="block px-6 py-3 text-gray-700 hover:text-cyan-500 font-semibold"
-                  >
-                    {category.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            
-          </li>
+  <span className="text-md capitalize roboto font-extrabold text-gray-800 cursor-pointer hover:text-cyan-500">
+    Sách Thiên Lý
+  </span>
+  <ul className="absolute left-0 top-full w-[400px] bg-white shadow-lg rounded-md hidden group-hover:grid transition-all transform scale-95 group-hover:scale-100 grid grid-cols-2 gap-4 p-4 justify-center items-center">
+    {categories.map((category) => (
+      <li key={category.id} className="hover:bg-gray-200 text-center">
+        <Link
+          href={`/the-loai/${category.path}`} // Sử dụng path từ thể loại
+          className="block px-6 py-3 text-gray-700 hover:text-cyan-500 font-semibold"
+        >
+          {category.name}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</li>
+
+
 
           <li className="px-4">
             <Link

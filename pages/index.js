@@ -133,18 +133,35 @@ export default function Home() {
             CÓ THỂ BẠN SẼ THÍCH SẢN PHẨM NÀY{" "}
           </span>{" "}
         </h2>{" "}
-        <ListBody>
-          {" "}
-          {books &&
-            books.map((item, index) => {
-              if (
-                Array.isArray(item.categories) &&
-                item.categories.includes("Khoa học Viễn tưởng")
-              ) {
-                return <CardBook key={index} {...item} />;
-              }
-            })}{" "}
-        </ListBody>{" "}
+        <div className="relative p-10">
+          <Slider ref={sliderRef} {...sliderProducts}>
+            {books &&
+              books
+                .filter(
+                  (item) =>
+                    Array.isArray(item.categories) &&
+                    item.categories.includes("Khoa học Viễn tưởng")
+                )
+                .map((item, index) => (
+                  <div key={index}>
+                    <CardBook {...item} />{" "}
+                  </div>
+                ))}{" "}
+          </Slider>{" "}
+          <button
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full"
+            onClick={() => sliderRef.current.slickPrev()}
+          >
+            <FaChevronLeft size={30} />{" "}
+          </button>{" "}
+          <button
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-500 text-white p-2 rounded-full"
+            onClick={() => sliderRef.current.slickNext()}
+          >
+            <FaChevronRight size={30} />{" "}
+          </button>{" "}
+        </div>
+
       </div>{" "}
       {showModal && (
         <Modal show={showModal}>
