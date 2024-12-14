@@ -13,6 +13,7 @@ import EmptyCart from "@/components/empty-cart";
 import { useRouter } from "next/router";
 import Delivery from "@/components/delivery";
 import { validateOrder } from "@/feature/validation/valiorders";
+import Image from "next/image";
 
 export default function Checkout() {
   const router = useRouter();
@@ -32,69 +33,53 @@ export default function Checkout() {
   const [bank, setBank] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  // const handlePaymentvn = async () => {
-  //   const orderData = {
-  //     name,
-  //     phone,
-  //     email,
-  //     home,
-  //     wards,
-  //     district,
-  //     city,
-  //     rule,
-  //   };
+  const handleInputChange = (key, value) => {
+    const storedData = JSON.parse(localStorage.getItem("checkoutData")) || {};
+    storedData[key] = value;
+    localStorage.setItem("checkoutData", JSON.stringify(storedData));
 
-  //   // Gọi hàm validateOrder để kiểm tra dữ liệu
-  //   const validationErrors = validateOrder(orderData);
+    // Cập nhật giá trị state tương ứng
+    switch (key) {
+      case "home":
+        setHome(value);
+        break;
+      case "wards":
+        setWards(value);
+        break;
+      case "district":
+        setDistrict(value);
+        break;
+      case "city":
+        setCity(value);
+        break;
+      case "name":
+        setName(value);
+        break;
+      case "phone":
+        setPhone(value);
+        break;
+      case "email":
+        setEmail(value);
+        break;
+      case "rule":
+        setRule(value === "true");
+        break;
+      default:
+        break;
+    }
+  };
 
-  //   // Nếu có lỗi, cập nhật state lỗi và không thực hiện thanh toán
-  //   setValidationErrors(validationErrors);
-  //   if (Object.keys(validationErrors).length > 0) {
-  //     return;
-  //   }
-
-  //   try {
-  //     const paymentData = {
-  //       id_user: userInfo.uid, // Thêm ID người dùng
-  //       date: getDate(), // Thêm thông tin ngày hiện tại
-  //       total: total + 10000, // Tổng đơn hàng + phí giao hàng
-  //       bankCode: "NCB",
-  //       language: "vn",
-  //       customerInfo: {
-  //         name,
-  //         phone,
-  //         email,
-  //       },
-  //       address: {
-  //         home,
-  //         wards,
-  //         district,
-  //         city,
-  //       },
-  //       list_item: data.arrayCart, // Thêm danh sách sản phẩm trong giỏ hàng
-  //       payment: bank ? "delivery" : "zalo", // Thêm thông tin phương thức thanh toán
-  //     };
-
-  //     const response = await fetch("/api/vnpay", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(paymentData),
-  //     });
-
-  //     if (response.ok) {
-  //       const resData = await response.json();
-  //       window.location.href = resData.url; // Redirect đến URL thanh toán
-  //       console.log("Data gửi đi:", paymentData);
-  //     } else {
-  //       n;
-  //       console.error("Payment request failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during payment request", error);
-  //   }
-  // };
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("checkoutData")) || {};
+    setHome(storedData.home || "");
+    setWards(storedData.wards || "");
+    setDistrict(storedData.district || "");
+    setCity(storedData.city || "");
+    setName(storedData.name || "");
+    setPhone(storedData.phone || "");
+    setEmail(storedData.email || "");
+    setRule(storedData.rule === true);
+  }, []);
 
   const handlePaymentvn = async () => {
     const orderData = {
@@ -136,7 +121,7 @@ export default function Checkout() {
           city,
         },
         list_item: data.arrayCart,
-        payment: bank ? "delivery" : "vnpay",
+        payment: bank ? "delivery" : "zalo",
       };
 
       const response = await fetch("/api/vnpay", {
@@ -164,7 +149,7 @@ export default function Checkout() {
 
         if (orderResponse.ok) {
           window.location.href = resData.url; // Redirect to payment URL
-          console.log("Order data sent:", paymentData);
+          // console.log("Order data sent:", paymentData);
         } else {
           console.error("Order posting failed");
         }
@@ -292,25 +277,25 @@ export default function Checkout() {
             </button>{" "}
             <TextInput
               value={home}
-              callback={(text) => setHome(text)}
+              callback={(text) => handleInputChange("home", text)}
               name="Số nhà"
               error={errorOrder && errorOrder.home}
             />{" "}
             <TextInput
               value={wards}
-              callback={(text) => setWards(text)}
+              callback={(text) => handleInputChange("wards", text)}
               name="Phường/Xã"
               error={errorOrder && errorOrder.wards}
             />{" "}
             <TextInput
               value={district}
-              callback={(text) => setDistrict(text)}
+              callback={(text) => handleInputChange("district", text)}
               name="Quận"
               error={errorOrder && errorOrder.district}
             />{" "}
             <TextInput
               value={city}
-              callback={(text) => setCity(text)}
+              callback={(text) => handleInputChange("city", text)}
               name="Thành phố"
               error={errorOrder && errorOrder.city}
             />{" "}
@@ -321,20 +306,20 @@ export default function Checkout() {
             </h2>{" "}
             <TextInput
               value={name}
-              callback={(text) => setName(text)}
+              callback={(text) => handleInputChange("name", text)}
               name="Họ tên của bạn"
               error={errorOrder && errorOrder.name}
             />{" "}
             <TextInput
               value={phone}
-              callback={(text) => setPhone(text)}
+              callback={(text) => handleInputChange("phone", text)}
               name="Số điện thoại"
               type="number"
               error={errorOrder && errorOrder.phone}
             />{" "}
             <TextInput
               value={email}
-              callback={(text) => setEmail(text)}
+              callback={(text) => handleInputChange("email", text)}
               name="Địa chỉ email"
               error={errorOrder && errorOrder.email}
             />{" "}
@@ -347,7 +332,7 @@ export default function Checkout() {
               onClick={() => setBank(true)}
               className={`${
                 bank
-                  ? "border-black bg-black text-white"
+                  ? "border-black bg-cyan-500 text-white"
                   : "text-black border-black"
               } cursor-pointer font-bold flex items-center justify-between my-2 border-2 px-2 py-4 rounded-[6px]`}
             >
@@ -362,10 +347,11 @@ export default function Checkout() {
               className={`${
                 bank
                   ? "text-black border-black"
-                  : "border-black bg-black text-white"
+                  : "border-black bg-cyan-500 text-white"
               } cursor-pointer font-bold flex items-center justify-between my-2  border-2 px-2 py-4 rounded-[6px]`}
             >
-              Thanh toán VNPAY <MdPayment className="w-7 h-7" />
+   Thanh toán VNPAY 
+   <Image src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-VNPAY-QR-1.png" alt="VNPAY Logo" width={500} height={500} className="w-auto h-7" />
             </div>{" "}
           </div>{" "}
           <div>
@@ -386,9 +372,9 @@ export default function Checkout() {
             <div>
               <button
                 onClick={handlePaymentvn}
-                className="text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
+                className="w-full max-w-[800px] mx-auto text-center cursor-pointer btn-shadow py-4 rounded-full bg-[#28a745] font-bold text-white my-10"
               >
-                Thanh Toan{" "}
+                Thanh Toán{" "}
               </button>{" "}
             </div>
           ) : (

@@ -17,6 +17,7 @@ const nextConfig = {
       "png.pngtree.com",
       "img.upanh.tv",
       "lh3.googleusercontent.com",
+      "cdn.haitrieu.com",
     ],
   },
 };

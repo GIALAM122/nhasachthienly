@@ -11,7 +11,7 @@ const ProductDetails = ({ product, quantity, setQuantity, handleAddItem }) => {
         {product.name}
       </h2>
       {/* Mô tả sách */}
-      <p className="text-lg md:text-xl text-gray-700 mb-6">{product.description}</p>
+      {/* <p className="text-lg md:text-xl text-gray-700 mb-6">{product.description}</p> */}
 
       {/* Thông tin chi tiết */}
       <div className="border-t border-gray-200 pt-4">
