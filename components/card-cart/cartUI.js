@@ -66,7 +66,7 @@ export default function CardCartUI({
             <div className="relative justify-self-start">
                 <span
                     onClick={handleDelete}
-                    className="cursor-pointer hover:text-cyan-500 text-black-600 text-2xl"
+                    className="cursor-pointer hover:text-red-500 text-black-600 text-2xl"
                 >
                     <RiDeleteBin6Line />
                 </span>

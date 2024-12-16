@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo  } from 'react';
 import { db } from '@/feature/firebase/firebase';
 import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import Admin from './layouts/Admin';
@@ -50,17 +50,27 @@ const OrdersPage = () => {
     const handleCloseModal = () => {
         setSelectedOrder(null);
     };
-
-    const handleStatusChange = async (orderId, newStatus) => {
+    const handleStatusChange = async (orderId, itemIndex, status) => {
         const orderRef = doc(db, 'previous-order', orderId);
-        await updateDoc(orderRef, {
-            status: newStatus,
-        });
-        const updatedOrders = orders.map(order =>
-            order.id === orderId ? { ...order, status: newStatus } : order
-        );
-        setOrders(updatedOrders);
+        const order = orders.find(order => order.id === orderId);
+    
+        if (order) {
+            const updatedItems = order.items.map((item, index) => {
+                if (index === itemIndex) {
+                    return { ...item, status };
+                }
+                return item;
+            });
+    
+            // Cập nhật Firestore
+            await updateDoc(orderRef, { items: updatedItems });
+    
+            // Cập nhật lại state
+            setOrders(orders.map(o => (o.id === orderId ? { ...o, items: updatedItems } : o)));
+        }
     };
+    
+    
 
     // Hàm mở modal xóa
     const handleDeleteClick = (order) => {
@@ -69,15 +79,25 @@ const OrdersPage = () => {
     };
 
     // Hàm xóa đơn hàng
-    const handleDeleteOrder = async () => {
-        if (orderToDelete) {
-            await deleteDoc(doc(db, 'previous-order', orderToDelete.orderId));  // Xóa đơn hàng khỏi Firebase
-            setOrders(orders.filter(order => order.id !== orderToDelete.orderId));  // Cập nhật lại danh sách đơn hàng
-            setShowDeleteModal(false);  // Đóng modal
-            setOrderToDelete(null);  // Xóa đơn hàng khỏi state
+    const handleDeleteOrder = async (orderId, itemIndex) => {
+        const orderRef = doc(db, 'previous-order', orderId);
+
+        // Lấy đơn hàng hiện tại
+        const order = orders.find(order => order.id === orderId);
+    
+        if (order && Array.isArray(order.items)) { // Kiểm tra nếu order.items là mảng
+            // Loại bỏ item tại itemIndex
+            const updatedItems = order.items.filter((_, index) => index !== itemIndex);
+    
+            // Cập nhật Firestore   
+            await updateDoc(orderRef, { items: updatedItems });
+    
+            // Cập nhật lại state
+            setOrders(orders.map(o => (o.id === orderId ? { ...o, items: updatedItems } : o)));
+        } else {
+            console.error("Không tìm thấy đơn hàng hoặc items không phải là mảng");
         }
     };
-
     return (
         <div className="relative container mx-auto p-4 mb-6 top-[100px]">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
@@ -97,8 +117,8 @@ const OrdersPage = () => {
                 orders={orders}
                 filteredOrders={filteredOrders}
                 handleCardClick={handleCardClick}
-                handleStatusChange={handleStatusChange}  // Truyền hàm này vào OrderList
                 handleDeleteClick={handleDeleteClick}  // Truyền hàm xóa vào OrderList
+                handleStatusChange={handleStatusChange}
             />
 
             {/* Modal hiển thị chi tiết đơn hàng */}

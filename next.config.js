@@ -18,6 +18,7 @@ const nextConfig = {
       "img.upanh.tv",
       "lh3.googleusercontent.com",
       "cdn.haitrieu.com",
+      "encrypted-tbn0.gstatic.com", 
     ],
   },
 };

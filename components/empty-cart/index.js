@@ -4,8 +4,8 @@ export default function EmptyCart() {
   return (
     <div className="min-h-[590px] flex bg-auto bg-empty items-center w-[100%] p-10">
       <div className="w-[34%]">
-        <p className="oswald text-4xl">
-          GIỎ HÀNG CỦA BẠN ĐANG TRỐNG. HÃY ĐẶT MÓN NGAY!
+        <p className="oswald text-4xl text-black-600 font-bold">
+          GIỎ HÀNG CỦA BẠN ĐANG TRỐNG. HÃY ĐẶT SÁCH NGAY!
         </p>
         <div className="mt-10 text-sm">
           <Link

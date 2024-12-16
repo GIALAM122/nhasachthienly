@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function CardBody({ title, data }) {
   return (
     <div className="p-4">
@@ -7,7 +8,9 @@ export default function CardBody({ title, data }) {
       <ul>
         {data.map((item, index) => (
           <li key={index} className="text-sm capitalize">
-            <span className="hover:text-white cursor-pointer">{item.name}</span>
+            <Link href={`the-loai/${item.path}`} className="hover:text-white cursor-pointer">
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>

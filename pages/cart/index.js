@@ -55,8 +55,8 @@ export default function Cart() {
   }
 
   return (
-    <div className="container m-auto ">
-      <div className=" before:left-[17px] ">
+    <div className="container m-auto mt-2 mb-10 ">
+      <div className="before:left-[17px] ">
         <h2 className="oswald text-4xl py-4 block">Giỏ hàng của tôi</h2>
       </div>
       <div className="flex justify-between">
@@ -83,7 +83,7 @@ export default function Cart() {
               ))}
             </div>
 
-            <div className="w-[28%] border border-gray-300 rounded-lg shadow-lg">
+            <div className="w-[28%] border border-gray-300 rounded-lg shadow-lg sticky top-24 self-start">
               <div className="bg-cyan-500 text-black py-4 px-6 rounded-t-lg">
                 <h2 className="oswald text-xl uppercase">Chi tiết thanh toán</h2>
                 <p className="text-sm mt-2">Tổng số sách: <span className="font-bold">{totalBook} sách</span></p>
@@ -106,11 +106,8 @@ export default function Cart() {
                     <span className="font-bold text-base">Thanh toán</span>
                   </div>
                 </Link>
-
-
               </div>
             </div>
-
           </>
         )}
       </div>

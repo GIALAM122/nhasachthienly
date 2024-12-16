@@ -135,10 +135,7 @@ export default function NavMenu({ callback }) {
 
 
       </Link>
-      <GiHamburgerMenu
-        className="w-8 h-8 mx-2 cursor-pointer"
-      // onClick={callback}
-      />
+
     </div>
   );
 }

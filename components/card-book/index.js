@@ -52,7 +52,8 @@ export default function CardBook({ description, name, img, price, id, visible, m
           </p>
           <div className="flex flex-wrap justify-center mt-2">
             {categories.map((category, index) => (
-          <Link href={`/the-loai/${category.toLowerCase().replace(/\s+/g, "-")}`} key={index}>
+              <Link href={`/the-loai/${category.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, "")}`} key={index}>
+
                 <button
                   className="bg-red-500 text-white text-sm rounded-full px-3 py-1 m-1 hover:bg-red-700 transition duration-300"
                 >
