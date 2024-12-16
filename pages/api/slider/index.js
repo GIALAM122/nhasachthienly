@@ -1,14 +1,4 @@
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { firebaseApp } from "@/feature/firebase/firebase"; // Đảm bảo đường dẫn đúng
-
-const db = getFirestore(firebaseApp);
-
-async function getData(collectionName) {
-  const colRef = collection(db, collectionName);
-  const snapshot = await getDocs(colRef);
-  const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  return data;
-}
+import { getData } from "@/feature/firebase/firebaseAuth";
 
 export default async function handle(req, res) {
   const { method } = req;

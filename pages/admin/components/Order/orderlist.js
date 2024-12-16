@@ -111,17 +111,18 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleDeleteClick,
                                 <td className="py-4 px-6 text-sm text-gray-500">
                                     <div className="flex space-x-2">
                                         <button
-                                            onClick={() => handleCardClick(item)} 
+                                            onClick={() => handleCardClick(item)}
                                             className="font-semibold text-blue-500 hover:underline"
                                         >
                                             Chi tiết
                                         </button>
                                         <button
-                                            onClick={() => handleDeleteClick(item.orderId, index)} 
+                                            onClick={() => handleDeleteClick(item)}
                                             className="font-semibold text-red-500 hover:underline"
                                         >
                                             Xóa
                                         </button>
+
                                     </div>
                                 </td>
                             </tr>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo  } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { db } from '@/feature/firebase/firebase';
 import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import Admin from './layouts/Admin';
@@ -53,7 +53,7 @@ const OrdersPage = () => {
     const handleStatusChange = async (orderId, itemIndex, status) => {
         const orderRef = doc(db, 'previous-order', orderId);
         const order = orders.find(order => order.id === orderId);
-    
+
         if (order) {
             const updatedItems = order.items.map((item, index) => {
                 if (index === itemIndex) {
@@ -61,43 +61,56 @@ const OrdersPage = () => {
                 }
                 return item;
             });
-    
+
             // Cập nhật Firestore
             await updateDoc(orderRef, { items: updatedItems });
-    
+
             // Cập nhật lại state
             setOrders(orders.map(o => (o.id === orderId ? { ...o, items: updatedItems } : o)));
         }
     };
-    
-    
 
-    // Hàm mở modal xóa
+
+
+    // Trong component OrdersPage
     const handleDeleteClick = (order) => {
         setOrderToDelete(order);
         setShowDeleteModal(true);
     };
 
-    // Hàm xóa đơn hàng
-    const handleDeleteOrder = async (orderId, itemIndex) => {
-        const orderRef = doc(db, 'previous-order', orderId);
 
-        // Lấy đơn hàng hiện tại
-        const order = orders.find(order => order.id === orderId);
+    // Hàm xóa đơn hàng
+    const handleDeleteOrder = async () => {
+        // Kiểm tra nếu orderToDelete và orderToDelete.items không phải undefined
+        if (!orderToDelete || !Array.isArray(orderToDelete.items)) {
+            console.error("Dữ liệu đơn hàng không hợp lệ");
+            return;
+        }
     
-        if (order && Array.isArray(order.items)) { // Kiểm tra nếu order.items là mảng
-            // Loại bỏ item tại itemIndex
-            const updatedItems = order.items.filter((_, index) => index !== itemIndex);
+        // Lấy tham chiếu tài liệu đơn hàng trong Firestore
+        const orderRef = doc(db, 'previous-order', orderToDelete.id);
     
-            // Cập nhật Firestore   
+        // Cập nhật Firestore: Loại bỏ item tại itemIndex
+        const updatedItems = orderToDelete.items.filter((_, index) => index !== itemIndex);
+    
+        // Cập nhật Firestore
+        try {
             await updateDoc(orderRef, { items: updatedItems });
     
-            // Cập nhật lại state
-            setOrders(orders.map(o => (o.id === orderId ? { ...o, items: updatedItems } : o)));
-        } else {
-            console.error("Không tìm thấy đơn hàng hoặc items không phải là mảng");
+            // Cập nhật lại state orders sau khi xóa
+            // Chỉ cập nhật lại đơn hàng có id tương ứng
+            setOrders(orders.map(order =>
+                order.id === orderToDelete.id
+                    ? { ...order, items: updatedItems } // Cập nhật đơn hàng đã xóa item
+                    : order // Giữ nguyên các đơn hàng còn lại
+            ));
+        } catch (error) {
+            console.error("Lỗi khi cập nhật Firestore: ", error);
         }
     };
+    
+    
+
     return (
         <div className="relative container mx-auto p-4 mb-6 top-[100px]">
             <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
@@ -131,6 +144,7 @@ const OrdersPage = () => {
                     onDelete={handleDeleteOrder}
                     order={orderToDelete}
                 />
+
             )}
         </div>
     );
