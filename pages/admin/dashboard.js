@@ -1,6 +1,6 @@
 // Dashboard.js
 import React from "react";
-import useOrders from "./hooks/useOrders";
+import useOrders from "../../hooks/useOrders";
 
 // components
 import CardLineChart from "./components/Cards/CardLineChart";

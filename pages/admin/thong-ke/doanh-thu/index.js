@@ -1,6 +1,6 @@
 // Dashboard.js
 import React from "react";
-import useOrders from "../../hooks/useOrders"; // Đường dẫn đến hook của bạn
+import useOrders from "../../../../hooks/useOrders"; // Đường dẫn đến hook của bạn
 
 // components
 import CardLineChart from "../../components/Cards/CardLineChart";

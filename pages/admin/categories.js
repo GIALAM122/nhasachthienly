@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCategories, addCategory, updateCategory, deleteCategory, createPath } from './hooks/useCategories';
+import { fetchCategories, addCategory, updateCategory, deleteCategory, createPath } from '../../hooks/useCategories';
 import Admin from "./layouts/Admin";
 import { IoIosAddCircle } from "react-icons/io";
 import CategoryList from './components/categories/ListCategory';
