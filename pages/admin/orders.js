@@ -50,25 +50,25 @@ const OrdersPage = () => {
     const handleCloseModal = () => {
         setSelectedOrder(null);
     };
-    const handleStatusChange = async (orderId, itemIndex, status) => {
+    const handleStatusChange = async (orderId, itemTotal, status) => {
         const orderRef = doc(db, 'previous-order', orderId);
         const order = orders.find(order => order.id === orderId);
 
         if (order) {
-            const updatedItems = order.items.map((item, index) => {
-                if (index === itemIndex) {
-                    return { ...item, status };
-                }
-                return item;
-            });
+            const updatedItems = order.items.map(item =>
+                item.total === itemTotal ? { ...item, status } : item
+            );
 
             // Cập nhật Firestore
             await updateDoc(orderRef, { items: updatedItems });
 
             // Cập nhật lại state
-            setOrders(orders.map(o => (o.id === orderId ? { ...o, items: updatedItems } : o)));
+            setOrders(orders.map(o =>
+                o.id === orderId ? { ...o, items: updatedItems } : o
+            ));
         }
     };
+
 
 
 
@@ -77,8 +77,6 @@ const OrdersPage = () => {
         setOrderToDelete(order);
         setShowDeleteModal(true);
     };
-
-
     // Hàm xóa đơn hàng
     const handleDeleteOrder = async () => {
         // Kiểm tra nếu orderToDelete và orderToDelete.items không phải undefined
@@ -86,17 +84,17 @@ const OrdersPage = () => {
             console.error("Dữ liệu đơn hàng không hợp lệ");
             return;
         }
-    
+
         // Lấy tham chiếu tài liệu đơn hàng trong Firestore
         const orderRef = doc(db, 'previous-order', orderToDelete.id);
-    
+
         // Cập nhật Firestore: Loại bỏ item tại itemIndex
         const updatedItems = orderToDelete.items.filter((_, index) => index !== itemIndex);
-    
+
         // Cập nhật Firestore
         try {
             await updateDoc(orderRef, { items: updatedItems });
-    
+
             // Cập nhật lại state orders sau khi xóa
             // Chỉ cập nhật lại đơn hàng có id tương ứng
             setOrders(orders.map(order =>
@@ -108,12 +106,12 @@ const OrdersPage = () => {
             console.error("Lỗi khi cập nhật Firestore: ", error);
         }
     };
-    
-    
+
+
 
     return (
         <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-            <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
+            <h1 className="text-4xl uppercase oswald font-extrabold text-cyan-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
                 Danh sách đơn hàng
             </h1>
 

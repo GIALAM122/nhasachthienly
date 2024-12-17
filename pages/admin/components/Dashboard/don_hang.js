@@ -107,11 +107,11 @@ const OrderCountDisplay = () => {
             Xem Chi Tiết Đơn Hàng
           </button>
         </Link>
-        <Link href="/admin/statistics" passHref>
+        {/* <Link href="/admin/statistics" passHref>
           <button className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow w-[250px]">
             Xem Thống Kê Đơn Hàng
           </button>
-        </Link>
+        </Link> */}
       </div>
 
 

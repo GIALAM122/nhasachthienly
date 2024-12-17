@@ -63,7 +63,7 @@ const UsersPage = () => {
 
   return (
     <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-      <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
+      <h1 className="text-4xl oswald font-extrabold text-cyan-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
         DANH SÁCH NGƯỜI DÙNG
       </h1>
 

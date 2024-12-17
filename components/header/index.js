@@ -43,7 +43,7 @@ export default function Header() {
           </li>
           <li className="pl-10 px-4">
             <Link
-              className={`text-md capitalize roboto font-bold ${pathname[1] === "kham-pha" ? "text-cyan-500" : "text-gray-800"
+              className={`text-md capitalize roboto font-semibold ${pathname[1] === "kham-pha" ? "text-cyan-500" : "text-gray-800"
                 } hover:text-cyan-500`}
               href="/kham-pha"
             >

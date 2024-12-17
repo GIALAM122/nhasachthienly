@@ -1,45 +1,42 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { FaArrowDown, FaArrowUp, FaFilter } from 'react-icons/fa'; // Thêm icon FaFilter
-import { BsFilterRight } from "react-icons/bs";
+import { FaArrowDown, FaArrowUp, FaFilter } from 'react-icons/fa'; // Updated icons
+import { BsFilterRight } from 'react-icons/bs';
+import { FiChevronDown, FiChevronUp } from 'react-icons/fi'; // Added additional icons for better clarity
 
-
-const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, toggleProductVisibility,
-  openDeleteModal, setCurrentPage, }) => {
-  const [sortOrder, setSortOrder] = useState(''); // Quản lý thứ tự sắp xếp
-  const [selectedCategories, setSelectedCategories] = useState([]); // Quản lý danh mục đã chọn
-  const [isFilterVisible, setIsFilterVisible] = useState(true); // Quản lý trạng thái hiển thị lọc
-  // Các danh mục có thể lọc
+const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, toggleProductVisibility, setCurrentPage }) => {
+  const [sortOrder, setSortOrder] = useState(''); // Sort order state
+  const [selectedCategories, setSelectedCategories] = useState([]); // Selected categories state
+  const [isFilterVisible, setIsFilterVisible] = useState(true); // Toggle filter visibility
+  // Categories to filter
   const allCategories = [...new Set(allProducts.flatMap(product => product.categories))];
-  // Hàm xử lý sắp xếp sản phẩm theo giá
+
+  // Handle sorting change
   const handleSortChange = (order) => {
     setSortOrder(order);
   };
-  const handleShowLatestChange = () => {
-    setShowLatest((prev) => !prev);
-    setCurrentPage(1); // Đặt lại trang về 1
-  };
-  // Hàm xử lý thay đổi lựa chọn danh mục
+
+  // Handle category filter change
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
-        ? prev.filter((cat) => cat !== category) // Nếu đã chọn thì bỏ chọn
-        : [...prev, category] // Nếu chưa chọn thì thêm vào danh sách
+        ? prev.filter((cat) => cat !== category)
+        : [...prev, category]
     );
-    setCurrentPage(1); // Đặt lại trang về 1
+    setCurrentPage(1); // Reset to the first page after applying the filter
   };
 
-  // Hàm sắp xếp sản phẩm
+  // Sorting products based on the price
   const sortedProducts = [...currentProducts].sort((a, b) => {
     if (sortOrder === 'asc') {
       return a.price - b.price;
     } else if (sortOrder === 'desc') {
       return b.price - a.price;
     }
-    return 0; // Không thay đổi nếu không chọn lọc
+    return 0; // No sorting if no order is specified
   });
 
-  // Lọc sản phẩm theo các danh mục đã chọn
+  // Filtering products by selected categories
   const filteredProducts = sortedProducts.filter((product) => {
     if (selectedCategories.length === 0) return true;
     return selectedCategories.some((category) => product.categories.includes(category));
@@ -48,79 +45,68 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
   return (
     <div className="font-bahnschrift flex flex-col gap-4 bg-white p-4 shadow-md rounded-lg">
 
-      {/* Nút bật/tắt phần lọc */}
+      {/* Toggle filter visibility */}
       <button
-        onClick={() => setIsFilterVisible(!isFilterVisible)} // Thay đổi trạng thái hiển thị lọc
+        onClick={() => setIsFilterVisible(!isFilterVisible)}
         className="mb-4 flex items-center space-x-2 bg-cyan-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-cyan-600"
       >
         <BsFilterRight />
         <span>{isFilterVisible ? 'Ẩn lọc' : 'Lọc sản phẩm'}</span>
       </button>
 
-      {/* Lọc sản phẩm theo giá */}
-      <div className={`flex justify-between items-center mb-4 ${isFilterVisible ? '' : 'hidden'}`}>
-        <div className={`flex justify-between items-center mb-4 ${isFilterVisible ? '' : 'hidden'}`}>
-          <div className="flex space-x-4">
-            <FaFilter className="text-blue-500" />
-            <span className="font-montserrat text-lx">Mặc định</span>
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={sortOrder === 'asc'}
-                onChange={() => handleSortChange('asc')}
-                className="mr-2 w-4 h-4"
-              />
-              <span className="font-montserrat text-lx">Giá thấp đến cao</span>
-              <FaArrowUp className="text-green-500" />
-            </label>
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={sortOrder === 'desc'}
-                onChange={() => handleSortChange('desc')}
-                className="mr-2 w-4 h-4"
-              />
-              <span className="font-montserrat text-lx">Giá cao đến thấp</span>
-              <FaArrowDown className="text-red-500" />
-            </label>
-            {/* Thêm checkbox mặc định */}
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={sortOrder === '' && selectedCategories.length === 0} // Kiểm tra xem đã reset chưa
-                onChange={() => {
-                  setSortOrder('');
-                  setSelectedCategories([]);
-                  setCurrentPage(1); // Đặt lại trang về 1
-                }}
-                className="mr-2 w-4 h-4"
-              />
-            </label>
+      {/* Filter by price */}
+      <div className={`flex flex-col gap-4 ${isFilterVisible ? '' : 'hidden'}`}>
+        <div className="flex justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <FaFilter className="text-blue-600 text-2xl" />
+            <span className="font-semibold text-lg">Lọc theo giá</span>
           </div>
-        </div>
 
+          {/* Default price filter */}
+          <button
+            onClick={() => handleSortChange('')}
+            className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === '' ? 'bg-cyan-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-cyan-600`}
+          >
+            Mặc định
+          </button>
+
+          {/* Price low to high */}
+          <button
+            onClick={() => handleSortChange('asc')}
+            className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === 'asc' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-green-600`}
+          >
+            Giá thấp đến cao
+            <FiChevronUp className="inline ml-2 text-green-600" />
+          </button>
+
+          {/* Price high to low */}
+          <button
+            onClick={() => handleSortChange('desc')}
+            className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === 'desc' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-red-600`}
+          >
+            Giá cao đến thấp
+            <FiChevronDown className="inline ml-2 text-red-600" />
+          </button>
+        </div>
       </div>
 
-
-      {/* Lọc sản phẩm theo danh mục */}
-      <div className={`mb-4 ${isFilterVisible ? '' : 'hidden'}`}>
-        <div className="text-lg font-semibold mb-2">Lọc theo danh mục</div>
+      {/* Filter by category */}
+      <div className={`mb-6 ${isFilterVisible ? '' : 'hidden'}`}>
+        <div className="text-lg font-semibold text-gray-800 mb-3">Lọc theo danh mục</div>
         <div className="flex flex-wrap gap-4">
           {allCategories.map((category) => (
-            <label key={category} className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(category)}
-                onChange={() => handleCategoryChange(category)}
-                className="mr-2 w-4 h-4"
-              />
-              <span className="font-montserrat text-sm">{category}</span>
-            </label>
+            <div
+              key={category}
+              onClick={() => handleCategoryChange(category)}
+              className={`px-4 py-2 cursor-pointer rounded-lg text-sm font-medium ${selectedCategories.includes(category) ? 'bg-cyan-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-cyan-600 transition-all`}
+            >
+              {category}
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Header */}
+      {/* Table Header */}
       <div className="grid grid-cols-4 gap-4 bg-gray-500 text-white py-3 px-4 rounded-lg">
         <div className="font-bold text-left">Tên sản phẩm</div>
         <div className="font-bold text-left">Giá</div>
@@ -128,21 +114,21 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
         <div className="font-bold text-center">Hành động</div>
       </div>
 
-      {/* Các hàng sản phẩm */}
+      {/* Products List */}
       {filteredProducts.map((product) => (
         <div
           key={product.id}
           className="grid grid-cols-4 gap-4 items-center bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 shadow-md"
         >
-          {/* Tên sản phẩm */}
+          {/* Product Name */}
           <div className="font-montserrat uppercase text-left font-semibold">{product.name}</div>
 
-          {/* Giá sản phẩm */}
+          {/* Product Price */}
           <div className="text-left text-green-700 font-bold">
             {product.price.toLocaleString('vi-VN')} vn₫
           </div>
 
-          {/* Hình ảnh sản phẩm */}
+          {/* Product Image */}
           <div className="flex justify-center">
             <Image
               src={product.img}
@@ -153,7 +139,7 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
             />
           </div>
 
-          {/* Hành động */}
+          {/* Actions */}
           <div className="flex justify-center space-x-2">
             <button
               onClick={() => handleOpenEditModal(product)}

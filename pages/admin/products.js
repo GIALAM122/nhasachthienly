@@ -215,7 +215,7 @@ export default function Dashboard() {
 
   return (
     <div className="relative container mx-auto p-4 mb-6 top-[100px]">
-      <h1 className="text-4xl font-extrabold text-gray-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
+      <h1 className="text-4xl oswald font-extrabold text-cyan-900 tracking-wide mb-6 transition-all duration-300 ease-in-out hover:text-blue-600">
         QUẢN LÝ SÁCH
       </h1>
 
@@ -238,7 +238,6 @@ export default function Dashboard() {
         currentProducts={currentProducts}
         handleOpenEditModal={handleOpenEditModal}
         toggleProductVisibility={toggleProductVisibility}
-        openDeleteModal={openDeleteModal}
         allProducts={allProducts} 
         setCurrentPage={setCurrentPage}
       />

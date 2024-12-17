@@ -9,19 +9,19 @@ const SortOptions = ({ sortOption, setSortOption }) => {
             </span>
             <button
                 onClick={() => setSortOption("newest")}
-                className={`px-4 py-2 rounded border ${sortOption === "newest" ? "bg-blue-500 text-white" : "bg-white text-gray-700"}`}
+                className={`px-4 py-2 rounded border font-semibold ${sortOption === "newest" ? "bg-blue-500 text-white" : "bg-white text-gray-700"}`}
             >
                 Sách mới
             </button>
             <button
                 onClick={() => setSortOption("price-low-high")}
-                className={`px-4 py-2 rounded border ${sortOption === "price-low-high" ? "bg-blue-500 text-white" : "bg-white text-gray-700"}`}
+                className={`px-4 py-2 rounded border font-semibold ${sortOption === "price-low-high" ? "bg-green-500 text-white" : "bg-white text-gray-700"}`}
             >
                 Giá thấp - cao
             </button>
             <button
                 onClick={() => setSortOption("price-high-low")}
-                className={`px-4 py-2 rounded border ${sortOption === "price-high-low" ? "bg-blue-500 text-white" : "bg-white text-gray-700"}`}
+                className={`px-4 py-2 rounded border font-semibold ${sortOption === "price-high-low" ? "bg-red-500 text-white" : "bg-white text-gray-700"}`}
             >
                 Giá cao - thấp
             </button>

@@ -56,7 +56,7 @@ export default function About() {
           <Image
             src="https://img.upanh.tv/2024/10/25/author-1.png"
             alt="Nhà sách Thiên Lý"
-            width={1000} // Next.js không hỗ trợ 'auto' cho width, bạn có thể dùng 'intrinsic' layout để giữ tỷ lệ ảnh
+            width={200} // Next.js không hỗ trợ 'auto' cho width, bạn có thể dùng 'intrinsic' layout để giữ tỷ lệ ảnh
             height={192} // h-48 tương đương với 12rem, tức là 192px
             className="h-48 w-auto"
         

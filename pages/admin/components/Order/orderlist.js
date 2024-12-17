@@ -1,20 +1,39 @@
 import { useState } from 'react';
-import { FaSortAmountDown, FaSortAmountUp, FaCalendarAlt } from 'react-icons/fa';
+import { FaSortAmountDown, FaSortAmountUp, FaCalendarAlt, FaTruck, FaCreditCard, FaSyncAlt, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const OrderList = ({ orders, filteredOrders, handleCardClick, handleDeleteClick, handleStatusChange }) => {
     // State for filter options
     const [filters, setFilters] = useState({
         newest: false,
         priceLowToHigh: false,
-        priceHighToLow: false
+        priceHighToLow: false,
+        deliveryMethod: null, // New filter for delivery method
+        status: null // New filter for order status
     });
 
     // Handle filter changes (only one active at a time)
     const handleFilterChange = (filterType) => {
         setFilters({
+            ...filters,
             newest: filterType === 'newest',
             priceLowToHigh: filterType === 'priceLowToHigh',
-            priceHighToLow: filterType === 'priceHighToLow'
+            priceHighToLow: filterType === 'priceHighToLow',
+            deliveryMethod: null, // Reset delivery method filter when sorting is applied
+            status: null // Reset status filter when sorting is applied
+        });
+    };
+
+    const handleDeliveryFilterChange = (method) => {
+        setFilters({
+            ...filters,
+            deliveryMethod: filters.deliveryMethod === method ? null : method // Toggle delivery filter
+        });
+    };
+
+    const handleStatusFilterChange = (status) => {
+        setFilters({
+            ...filters,
+            status: filters.status === status ? null : status // Toggle status filter
         });
     };
 
@@ -34,6 +53,14 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleDeleteClick,
             sortedOrders.sort((a, b) => b.total - a.total);
         }
 
+        if (filters.deliveryMethod) {
+            sortedOrders = sortedOrders.filter(order => order.payment === filters.deliveryMethod);
+        }
+
+        if (filters.status) {
+            sortedOrders = sortedOrders.filter(order => order.status === filters.status);
+        }
+
         return sortedOrders;
     };
 
@@ -41,31 +68,89 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleDeleteClick,
 
     return (
         <div>
-            {/* Filters Section with React Icons */}
-            <div className="flex space-x-6 mb-4 items-center">
-                <button
-                    className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.newest ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-                    onClick={() => handleFilterChange('newest')}
-                >
-                    <FaCalendarAlt />
-                    <span>Mới nhất</span>
-                </button>
-                <button
-                    className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.priceLowToHigh ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-                    onClick={() => handleFilterChange('priceLowToHigh')}
-                >
-                    <FaSortAmountUp />
-                    <span>Giá thấp tới cao</span>
-                </button>
-                <button
-                    className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.priceHighToLow ? 'bg-red-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-                    onClick={() => handleFilterChange('priceHighToLow')}
-                >
-                    <FaSortAmountDown />
-                    <span>Giá cao tới thấp</span>
-                </button>
+            {/* Filters Section */}
+            <div className="flex flex-col space-y-4 mb-4">
+                {/* Row 1: Sorting Filters */}
+                <div className="flex space-x-4 items-center">
+                    <span className="text-sm font-semibold text-gray-600">Sắp xếp theo:</span>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.newest ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleFilterChange('newest')}
+                    >
+                        <FaCalendarAlt />
+                        <span>Mới nhất</span>
+                    </button>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.priceLowToHigh ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleFilterChange('priceLowToHigh')}
+                    >
+                        <FaSortAmountUp />
+                        <span>Giá thấp tới cao</span>
+                    </button>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.priceHighToLow ? 'bg-red-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleFilterChange('priceHighToLow')}
+                    >
+                        <FaSortAmountDown />
+                        <span>Giá cao tới thấp</span>
+                    </button>
+                </div>
+
+                {/* Row 2: Delivery Method Filters */}
+                <div className="flex space-x-4 items-center">
+                    <span className="text-sm font-semibold text-gray-600">Phương thức:</span>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.deliveryMethod === 'delivery' ? 'bg-yellow-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleDeliveryFilterChange('delivery')}
+                    >
+                        <FaTruck />
+                        <span>Vận chuyển</span>
+                    </button>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.deliveryMethod === 'VNPay' ? 'bg-purple-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleDeliveryFilterChange('VNPay')}
+                    >
+                        <FaCreditCard />
+                        <span>VNPay</span>
+                    </button>
+                </div>
+
+                {/* Row 3: Order Status Filters */}
+                <div className="flex space-x-4 items-center">
+                    <span className="text-sm font-semibold text-gray-600 w-[85px]">Trạng thái: </span>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.status === 'Đang xử lý' ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleStatusFilterChange('Đang xử lý')}
+                    >
+                        <FaSyncAlt />
+                        <span>Đang xử lý</span>
+                    </button>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.status === 'Đã giao' ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleStatusFilterChange('Đã giao')}
+                    >
+                        <FaCheckCircle />
+                        <span>Đã giao</span>
+                    </button>
+                    <button
+                        className={`flex items-center space-x-2 p-2 text-sm font-medium rounded-lg ${filters.status === 'Đã hủy' ? 'bg-red-500 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                        onClick={() => handleStatusFilterChange('Đã hủy')}
+                    >
+                        <FaTimesCircle />
+                        <span>Đã hủy</span>
+                    </button>
+                </div>
             </div>
 
+            {/* Table Section */}
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
                     <thead className="bg-gray-100">
@@ -97,10 +182,9 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleDeleteClick,
                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.total)}
                                 </td>
                                 <td className="py-4 px-6 text-sm text-gray-500">
-                                    {/* Dropdown for status */}
                                     <select
                                         value={item.status || "Đang xử lý"}
-                                        onChange={(e) => handleStatusChange(item.orderId, index, e.target.value)}
+                                        onChange={(e) => handleStatusChange(item.orderId, item.total, e.target.value)} // Dùng item.id
                                         className="border p-1 text-sm rounded"
                                     >
                                         <option value="Đang xử lý">Đang xử lý</option>
@@ -122,7 +206,6 @@ const OrderList = ({ orders, filteredOrders, handleCardClick, handleDeleteClick,
                                         >
                                             Xóa
                                         </button>
-
                                     </div>
                                 </td>
                             </tr>
