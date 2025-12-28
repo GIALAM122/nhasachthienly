@@ -91,7 +91,7 @@ const DanhMucSach = () => {
             </h1>
             <input
                 type="text"
-                placeholder="Tìm kiếm theo tên không dấu"
+                placeholder="Tìm kiếm danh mục theo tên..."
                 value={searchTerm}
                 onChange={handleSearch}
                 className="border p-2 mb-4 w-full"

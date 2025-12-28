@@ -4,7 +4,7 @@ import { FaArrowDown, FaArrowUp, FaFilter } from 'react-icons/fa'; // Updated ic
 import { BsFilterRight } from 'react-icons/bs';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'; // Added additional icons for better clarity
 
-const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, toggleProductVisibility, setCurrentPage }) => {
+const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, toggleProductVisibility, setCurrentPage, }) => {
   const [sortOrder, setSortOrder] = useState(''); // Sort order state
   const [selectedCategories, setSelectedCategories] = useState([]); // Selected categories state
   const [isFilterVisible, setIsFilterVisible] = useState(true); // Toggle filter visibility
@@ -23,7 +23,7 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
         ? prev.filter((cat) => cat !== category)
         : [...prev, category]
     );
-    setCurrentPage(1); // Reset to the first page after applying the filter
+    setCurrentPage(1);
   };
 
   // Sorting products based on the price
@@ -55,43 +55,41 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
       </button>
 
       {/* Filter by price */}
-      <div className={`flex flex-col gap-4 ${isFilterVisible ? '' : 'hidden'}`}>
-        <div className="flex justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <FaFilter className="text-blue-600 text-2xl" />
-            <span className="font-semibold text-lg">Lọc theo giá</span>
-          </div>
+      <div className="flex justify-start items-center gap-4"> {/* Change justify-between to justify-start */}
+  <div className="flex items-center gap-2">
+    <FaFilter className="text-blue-600 text-2xl" />
+    <span className="font-semibold text-lg">Lọc theo giá</span>
+  </div>
 
-          {/* Default price filter */}
-          <button
-            onClick={() => handleSortChange('')}
-            className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === '' ? 'bg-cyan-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-cyan-600`}
-          >
-            Mặc định
-          </button>
+  {/* Default price filter */}
+  <button
+    onClick={() => handleSortChange('')}
+    className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === '' ? 'bg-cyan-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-cyan-600`}
+  >
+    Mặc định
+  </button>
+  {/* Price low to high */}
+  <button
+    onClick={() => handleSortChange('asc')}
+    className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === 'asc' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-green-600`}
+  >
+    Giá thấp đến cao
+    <FiChevronUp className="inline ml-2 text-green-600" />
+  </button>
 
-          {/* Price low to high */}
-          <button
-            onClick={() => handleSortChange('asc')}
-            className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === 'asc' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-green-600`}
-          >
-            Giá thấp đến cao
-            <FiChevronUp className="inline ml-2 text-green-600" />
-          </button>
+  {/* Price high to low */}
+  <button
+    onClick={() => handleSortChange('desc')}
+    className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === 'desc' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-red-600`}
+  >
+    Giá cao đến thấp
+    <FiChevronDown className="inline ml-2 text-red-600" />
+  </button>
+</div>
 
-          {/* Price high to low */}
-          <button
-            onClick={() => handleSortChange('desc')}
-            className={`px-6 py-2 rounded-lg font-medium text-md transition-all ${sortOrder === 'desc' ? 'bg-red-500 text-white' : 'bg-gray-200 text-gray-700'} hover:bg-red-600`}
-          >
-            Giá cao đến thấp
-            <FiChevronDown className="inline ml-2 text-red-600" />
-          </button>
-        </div>
-      </div>
 
       {/* Filter by category */}
-      <div className={`mb-6 ${isFilterVisible ? '' : 'hidden'}`}>
+      {/* <div className={`mb-6 ${isFilterVisible ? '' : 'hidden'}`}>
         <div className="text-lg font-semibold text-gray-800 mb-3">Lọc theo danh mục</div>
         <div className="flex flex-wrap gap-4">
           {allCategories.map((category) => (
@@ -104,7 +102,7 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Table Header */}
       <div className="grid grid-cols-4 gap-4 bg-gray-500 text-white py-3 px-4 rounded-lg">
@@ -149,9 +147,9 @@ const BookTable = ({ currentProducts, allProducts, handleOpenEditModal, togglePr
             </button>
             <button
               onClick={() => toggleProductVisibility(product.id, product.visible)}
-              className={`w-20 px-4 py-2 rounded-lg shadow-md ${product.visible ? 'bg-green-500' : 'bg-gray-400'} text-white hover:bg-opacity-90`}
+              className={`w-20 px-4 py-2 rounded-lg shadow-md ${product.visible ? 'bg-red-500' : 'bg-gray-400'} text-white hover:bg-opacity-90`}
             >
-              {product.visible ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
+              {product.visible ? <i className="fa-solid fa-trash"></i> : <i className="fa-solid fa-eye-slash"></i>}
             </button>
           </div>
         </div>

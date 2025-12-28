@@ -15,7 +15,7 @@ const ProductDetails = ({ product, quantity, setQuantity, handleAddItem }) => {
 
       {/* Thông tin chi tiết */}
       <div className="border-t border-gray-200 pt-4">
-        <h3 className="text-2xl font-semibold uppercase mb-2">Thông tin chi tiết</h3>
+        {/* <h3 className="text-2xl font-semibold uppercase mb-2">Thông tin chi tiết</h3> */}
         <ul className="text-gray-600 text-lg leading-8 capitalize">
           <li><strong>Tên sách:</strong> {product.name}</li>
           <li className="capitalize">

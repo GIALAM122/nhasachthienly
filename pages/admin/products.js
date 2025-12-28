@@ -101,6 +101,7 @@ export default function Dashboard() {
       console.error("Error adding document: ", error);
     }
   };
+  
 
   //Sửa sản phẩm
   const handleUpdateProduct = async (e) => {

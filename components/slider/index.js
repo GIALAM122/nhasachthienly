@@ -28,7 +28,7 @@ export default function SliderPanes() {
               key={item.id}
               width={0}
               height={0}
-              sizes="100vw"
+              sizes="50vw"
               src={item.link}
               alt=""
             />
